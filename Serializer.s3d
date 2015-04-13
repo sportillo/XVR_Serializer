@@ -1,0 +1,80 @@
+class Serializer
+{
+	var class_instance;
+	var attributes;
+	
+	Serialize(c);
+	Deserialize(c, sstring);	
+	RegisterAttribute(attr);
+};
+
+function Serializer::Serializer()
+{
+	attributes = array(0);
+
+}
+
+function Serializer::Serialize(c)
+{
+	class_instance = c;
+	var sstring = c.__GetName() + "\n{\n";
+	for(var i = 0; i < len(attributes); i++)
+	{
+		sstring += attributes[i] + ":" + VarStringEncode(c.__Get(attributes[i])) +  ",\n";
+	}
+	sstring += "}";
+	return sstring;
+}
+
+function Serializer::Deserialize(c, sstring)
+{
+	var i = 0;
+	var key = array(0);
+	var value = array(0);
+	while(sstring[i++] != "{"){}
+	i++;
+	while(sstring[i] != "}")
+	{
+		var k = "";
+		var v = "";
+		while(sstring[i] != ":")
+		{
+			k += sstring[i];
+			i++;
+		}
+		i++;
+		while(sstring[i] != ",")
+		{
+			v += sstring[i];
+			i++;
+		}
+		i+=2;
+		if(k != "")
+		{
+			aadd(key, k);
+			aadd(value, v);	
+		}
+	}
+	
+	for(var i = 0; i < len(key); i++)
+	{
+		c.__SET(key[i], VarStringDecode(value[i]));
+	}
+	return c;
+	
+}
+
+function Serializer::RegisterAttribute(attr)
+{
+	if(valtype(attr) == "S")
+	{
+		aadd(attributes, attr);
+	} 
+	else if(valtype(attr) == "A") 
+	{
+		foreach(var a in attr) 
+		{
+			aadd(attributes, a);
+		}
+	}
+}

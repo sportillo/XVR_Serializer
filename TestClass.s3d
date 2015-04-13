@@ -1,0 +1,10 @@
+class TestClass{
+	var name;
+	var id;
+	var myarray;
+
+};
+
+function TestClass::TestClass(){
+	myarray = array(0);
+}

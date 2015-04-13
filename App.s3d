@@ -1,0 +1,113 @@
+/* Include s3d symbols */
+#include <Script3d.h>
+#include <Camera.s3d.h>
+#include "TestClass.s3d"
+#include "Serializer.s3d"
+
+/* Set global scene parameters */
+SET SCENE_FOV  = 60;
+SET SCENE_NEAR = 0.5;
+SET SCENE_FAR  = 1000;
+
+
+// TODO: put your global variables here
+
+
+/* Light globals */
+var Light0;
+var PosL = [0.0, 10.0, 10.0];	// default light position
+
+var tc;
+var new_tc;
+var tc_serializer;
+/* Function declarations */
+function CameraMoveMouse();
+
+function OnDownload()
+{
+	// TODO: download your resources here
+	// E.g.: FileDownload("resource.ext");
+}
+
+
+function OnInit(params)
+{
+	/* initialize light */
+	Light0 = CVmLight();
+	Light0.SetPosition(PosL);
+	Light0.SetDiffuse(1, 1, 1);
+	Light0.Enable();	
+
+	// TODO: put your initialization code here
+	tc = TestClass();
+	tc_serializer = Serializer();
+	
+	tc.name = "Daniele";
+	tc.id = 4;
+	tc.myarray = {1, "test", true};
+
+	tc_serializer.RegisterAttribute({"name", "myarray", "id"});
+	
+	var sstring = tc_serializer.Serialize(tc);
+
+	outputln("### SERIALIZATION ###");
+	outputln(sstring);
+	outputln("### DESERIALIZATION ###");
+	var new_tc = TestClass();
+	new_tc = tc_serializer.Deserialize(new_tc, sstring);
+	outputln("Name: ", new_tc.name);
+	outputln("ID: ", new_tc.id);
+	outputln("Array: ", new_tc.myarray);
+}
+
+
+
+function OnFrame()
+{
+	/* manage camera */
+	CameraMoveMouse();
+
+	SceneBegin();
+
+	// TODO: put your drawing code here
+
+	SceneEnd();
+}
+
+
+
+function DownloadReady(RequestID)
+{
+	// TODO
+}
+
+
+
+function OnTimer()
+{
+	// TODO:
+}
+
+
+function OnEvent(eventID, wparam, lparam){
+	// TODO: put your events handling code here
+}
+
+function OnError(){
+	// TODO: put your errors handling code here
+}
+
+
+function OnExit()
+{
+	// TODO: put your cleanup code here
+}
+
+
+
+// Camera manager (using mouse)
+function CameraMoveMouse()
+{	
+
+}
+
