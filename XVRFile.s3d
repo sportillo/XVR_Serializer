@@ -1,0 +1,49 @@
+class XVRFile{
+	var dll;
+	var isOpen;
+	var path;
+	
+	open(filename, mode);
+	write(stringa);
+	writeln(stringa);
+	bwrite(stringa);
+	bread(stringa, length);
+	getLen();
+//	readln();
+	close();
+};
+
+function XVRFile::XVRFile(){
+	SetLocalDir();
+	dll = CVmExternDLL( "XVRFile.dll" );
+	dll.__AddFunction( C_INT, "open", C_PCHAR /*file name*/, C_PCHAR /*mode*/ );
+	dll.__AddFunction( C_INT, "close" );
+	dll.__AddFunction( C_INT, "puts", C_PCHAR /*c_string*/ );
+	dll.__AddFunction( C_INT, "binarywrite", C_PCHAR /*c_string*/, C_INT /*len*/ );
+	dll.__AddFunction( C_INT, "binaryread", C_PCHAR /*c_string*/, C_INT /*len*/ );
+	dll.__AddFunction( C_INT, "getLength");
+	isOpen = false;
+}
+function XVRFile::open(filename, mode){
+	path = dll.open(filename, mode);
+	isOpen = true;
+}
+function XVRFile::close(){
+	dll.close();
+	isOpen = false;
+}
+function XVRFile::write(stringa){
+	dll.puts(stringa);
+}
+function XVRFile::writeln(stringa){
+	dll.puts(stringa+"\n");
+}
+function XVRFile::bwrite(stringa){
+	dll.binarywrite(stringa, len(stringa));
+}
+function XVRFile::bread(stringa, length){
+	dll.binaryread(&stringa, length);
+}
+function XVRFile::getLen(){
+	return dll.getLength();
+}

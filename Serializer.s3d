@@ -66,15 +66,19 @@ function Serializer::Deserialize(c, sstring)
 
 function Serializer::RegisterAttribute(attr)
 {
+	if(attr == null)
+		attributes = array(0);
 	if(valtype(attr) == "S")
 	{
 		aadd(attributes, attr);
+		return;
 	} 
-	else if(valtype(attr) == "A") 
+	else if(valtype(attr) == "A" || valtype(attr) == "V") 
 	{
 		foreach(var a in attr) 
 		{
 			aadd(attributes, a);
 		}
+		return;
 	}
 }

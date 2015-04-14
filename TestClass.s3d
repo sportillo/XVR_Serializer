@@ -2,9 +2,18 @@ class TestClass{
 	var name;
 	var id;
 	var myarray;
+	
+	var obj;
+	
+	test();
 
 };
 
 function TestClass::TestClass(){
 	myarray = array(0);
+	obj = CVmObj(CVmNewMesh(VRP_BOX));
+}
+
+function TestClass::test(){
+	
 }

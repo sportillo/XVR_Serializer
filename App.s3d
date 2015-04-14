@@ -3,6 +3,7 @@
 #include <Camera.s3d.h>
 #include "TestClass.s3d"
 #include "Serializer.s3d"
+#include "XVRFile.s3d"
 
 /* Set global scene parameters */
 SET SCENE_FOV  = 60;
@@ -20,6 +21,8 @@ var PosL = [0.0, 10.0, 10.0];	// default light position
 var tc;
 var new_tc;
 var tc_serializer;
+var file;
+
 /* Function declarations */
 function CameraMoveMouse();
 
@@ -41,7 +44,8 @@ function OnInit(params)
 	// TODO: put your initialization code here
 	tc = TestClass();
 	tc_serializer = Serializer();
-	
+	file = XVRFile();
+	file.open("serialized.txt", "wb");
 	tc.name = "Daniele";
 	tc.id = 4;
 	tc.myarray = {1, "test", true};
@@ -49,18 +53,26 @@ function OnInit(params)
 	tc_serializer.RegisterAttribute({"name", "myarray", "id"});
 	
 	var sstring = tc_serializer.Serialize(tc);
-
+	file.bwrite(sstring);
+	file.close();
+	
 	outputln("### SERIALIZATION ###");
 	outputln(sstring);
 	outputln("### DESERIALIZATION ###");
 	var new_tc = TestClass();
-	new_tc = tc_serializer.Deserialize(new_tc, sstring);
+	file.open("serialized.txt", "rb");
+	var blen = file.getLen();
+	trace(blen);
+	var bstring = space(blen);
+	file.bread(&bstring, blen);
+	
+	tc_serializer.Deserialize(new_tc, bstring);
 	outputln("Name: ", new_tc.name);
 	outputln("ID: ", new_tc.id);
 	outputln("Array: ", new_tc.myarray);
+
+
 }
-
-
 
 function OnFrame()
 {
