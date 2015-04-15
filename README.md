@@ -27,7 +27,7 @@ new_obj = serializator.Deserialize(serialized_obj);
 ```
 
 ### Class Factory
-A funciton <ClassName>_Factory is required in order to serialize instances of that class.
+A funciton *ClassName*_Factory is required in order to serialize instances of that class.
 
 The function must return an array containing an instance of the class and an array of attributes to serialize.
 
