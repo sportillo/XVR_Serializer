@@ -1,0 +1,69 @@
+function substr(s, start, end)
+{
+	var _s = "";
+	for(var i = start; i<end; i++)
+		_s += s[i];
+	return _s;
+}
+
+function ssplit(s, sep, start, end) {
+	start = (start != Void) ? start: 0;
+	end = (end != Void) ? end : len(s);
+	var l = len(s);
+	var splitted = array(0);
+	var i = start;
+	if(start != 0)
+	aadd(splitted, substr(s, 0, start));
+	var a = "";
+	while(i < end)
+	{
+		if(s[i] == sep) {
+			aadd(splitted, a);
+			a = "";
+		}  
+		else if(i == end-1)
+		{
+			if(l == end)
+				a += s[i];
+			else
+			{
+				a += substr(s,i,len(s));
+			}
+			aadd(splitted, a);
+		}
+		else if(s[i] != sep)
+		{
+			a += s[i];
+		}
+		i++;
+	}
+	return splitted;
+}
+
+function indexOf(s, ch, start, end)
+{
+	end = (end != Void) ? end : len(s);
+	var i = (start != Void) ? start : 0;
+	for(; i<end; i++)
+	{
+		if(s[i] == ch)
+			return i;
+	}
+	return i;
+}
+
+function reverseIndexOf(s, ch, start)
+{
+	var i = (start != Void) ? start : len(s);
+	for(; i>0; i--)
+	{
+		if(s[i] == ch)
+			return i;
+	}
+	return len(s);
+}
+
+function contains(s, ch, start, end){
+	end = (end != Void) ? end : len(s);
+	return indexOf(s, ch, start,end) != end;	
+}

@@ -43,35 +43,38 @@ function OnInit(params)
 
 	// TODO: put your initialization code here
 	tc = TestClass();
+	tc.name = "Pippo";
+	tc.id = "20";
+	tc.myarray = {true, 1, "Lorem"};
+	tc.child = ChildClass();
+	tc.child.name = "ciccio";
+	tc.child.id = 100;
+	tc.child.arr = {childClass(), childClass()};
+	tc.children = {tc.child, tc.child};
 	tc_serializer = Serializer();
-	file = XVRFile();
-	file.open("serialized.txt", "wb");
-	tc.name = "Daniele";
-	tc.id = 4;
-	tc.myarray = {1, "test", true};
+	//file = XVRFile();
+	//file.open("serialized.txt", "wb");
 
-	tc_serializer.RegisterAttribute({"name", "myarray", "id"});
+	//tc_serializer.RegisterAttribute({"name", "myarray", "id"});
 	
 	var sstring = tc_serializer.Serialize(tc);
-	file.bwrite(sstring);
-	file.close();
+	//file.bwrite(sstring);
+	//file.close();
 	
 	outputln("### SERIALIZATION ###");
 	outputln(sstring);
 	outputln("### DESERIALIZATION ###");
 	var new_tc = TestClass();
-	file.open("serialized.txt", "rb");
-	var blen = file.getLen();
-	trace(blen);
-	var bstring = space(blen);
-	file.bread(&bstring, blen);
+	//file.open("serialized.txt", "rb");
+	//var blen = file.getLen();
+	//trace(blen);
+	//var bstring = space(blen);
+	//file.bread(&bstring, blen);
 	
-	tc_serializer.Deserialize(new_tc, bstring);
+	new_tc = tc_serializer.Deserialize(sstring);
 	outputln("Name: ", new_tc.name);
 	outputln("ID: ", new_tc.id);
-	outputln("Array: ", new_tc.myarray);
-
-
+	outputln("Child: ", new_tc.child.name);
 }
 
 function OnFrame()
@@ -122,4 +125,3 @@ function CameraMoveMouse()
 {	
 
 }
-

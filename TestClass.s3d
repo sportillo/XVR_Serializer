@@ -1,19 +1,20 @@
+#include "ChildClass.s3d"
+
 class TestClass{
 	var name;
 	var id;
 	var myarray;
 	
-	var obj;
-	
+	var child;
+	var children;
 	test();
 
 };
 
 function TestClass::TestClass(){
 	myarray = array(0);
-	obj = CVmObj(CVmNewMesh(VRP_BOX));
 }
 
-function TestClass::test(){
-	
+function TestClass_Factory(){
+	return {TestClass(), {"id", "child", "name", "children"}};
 }

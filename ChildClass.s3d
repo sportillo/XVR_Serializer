@@ -1,0 +1,13 @@
+class ChildClass{
+	var id;
+	var name;
+	var arr;
+};
+
+function ChildClass::ChildClass(){
+	arr = array(0);
+}
+
+function ChildClass_Factory(){
+	return {ChildClass(), {"id", "name"}};
+}

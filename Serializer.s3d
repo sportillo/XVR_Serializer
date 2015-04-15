@@ -1,84 +1,427 @@
+#include "Utils.s3d"
+
+SET _KEY = 0;
+SET _OBJECT = 1;
+SET _ARRAY = 2;
+SET _VECTOR = 3;
+SET _PRIMITIVE = 4;
+SET _OUT = 5;
+SET _END = 6;
+SET _CLASSNAME = 7;
+SET _SEPARATOR = 8;
+
 class Serializer
 {
 	var class_instance;
 	var attributes;
-	
+	var states;
 	Serialize(c);
-	Deserialize(c, sstring);	
-	RegisterAttribute(attr);
+	Deserialize(sstring);	
+//	RegisterAttribute(attr);
 };
 
 function Serializer::Serializer()
 {
 	attributes = array(0);
-
 }
 
 function Serializer::Serialize(c)
 {
-	class_instance = c;
-	var sstring = c.__GetName() + "\n{\n";
-	for(var i = 0; i < len(attributes); i++)
+	var instance, attributes;
+	var sstring = "";
+	if(valtype(c) == "O")
 	{
-		sstring += attributes[i] + ":" + VarStringEncode(c.__Get(attributes[i])) +  ",\n";
+		var factor = callback(c.__GetName()+"_Factory");
+		instance = factor[0];
+		attributes = factor[1];
+	
+		foreach(var a in attributes)
+		{
+			instance.__SET(a,c.__GET(a));
+		}
+		sstring = "{$" + instance.__GetName() + " ";
+		for(var i = 0; i < len(attributes); i++)
+		{
+			var value = instance.__Get(attributes[i]);
+			switch(valtype(value)[0])
+			{
+				case "O":
+					sstring += attributes[i] + ":" + Serialize(value);
+					if(i != len(attributes) - 1)
+					{
+						sstring += ",";
+					}
+					break;
+				case "A":
+					sstring += attributes[i] + ":" + "[";
+					for(var v = 0; v<len(value); v++)
+					{
+						sstring += Serialize(value[v]);
+						if(v!=len(value)-1)
+							sstring += " ";
+					}
+					sstring += "]";
+					if(i != len(attributes) -1)
+						sstring += ",";
+					break;
+				case "V":
+					sstring += attributes[i] + ":" + "[";
+					for(var v = 0; v<len(value); v++)
+					{
+						sstring += Serialize(value[v]);
+						//if(v!=len(value)-1)
+							//sstring += ",";
+					}
+					sstring += "],";
+					break;
+				default:
+					sstring += attributes[i] + ":" + VarStringEncode(instance.__Get(attributes[i]));
+					if(i != len(attributes) - 1)
+					{
+						sstring += ",";
+					}
+					break;
+			}
+		} 
+		sstring += "},";
+	} else {
+		sstring += VarStringEncode(c) + ",";
 	}
-	sstring += "}";
 	return sstring;
 }
 
-function Serializer::Deserialize(c, sstring)
+//function Serializer::Deserialize(c, sstring)
+//{
+//	var i = 0;
+//	var key = array(0);
+//	var value = array(0);
+//	while(sstring[i++] != "{"){}
+//	i++;
+//	while(sstring[i] != "}")
+//	{
+//		var k = "";
+//		var v = "";
+//		while(sstring[i] != ":")
+//		{
+//			k += sstring[i];
+//			i++;
+//		}
+//		i++;
+//		while(sstring[i] != ",")
+//		{
+//			v += sstring[i];
+//			i++;
+//		}
+//		i+=2;
+//		if(k != "")
+//		{
+//			aadd(key, k);
+//			aadd(value, v);	
+//		}
+//	}
+//		
+//	for(var i = 0; i < len(key); i++)
+//	{
+//		c.__SET(key[i], VarStringDecode(value[i]));
+//	}
+//	return c;
+//	
+//}
+
+//
+//
+function Serializer::Deserialize(s)
 {
-	var i = 0;
-	var key = array(0);
-	var value = array(0);
-	while(sstring[i++] != "{"){}
-	i++;
-	while(sstring[i] != "}")
-	{
-		var k = "";
-		var v = "";
-		while(sstring[i] != ":")
+	var keys = array(0);
+	var values = array(0);
+	
+	if(s[0] == "{"){
+		var i = indexOf(s, " ", 2);
+		var c = substr(s, 2, i);
+		trace(c);
+		if(c == "[")
 		{
-			k += sstring[i];
-			i++;
+			
 		}
-		i++;
-		while(sstring[i] != ",")
+		else
 		{
-			v += sstring[i];
-			i++;
-		}
-		i+=2;
-		if(k != "")
-		{
-			aadd(key, k);
-			aadd(value, v);	
+			var _instance = callback(substr(c, 0, len(c))+"_Factory");
+			_instance = _instance[0];
+			var instance_string = substr(s, ++i, reverseIndexOf(s, "}"));
+			trace(instance_string);
+			var map = array(0);
+			var m = "";
+			var depth = 0;
+			for(var i = 0; i<len(instance_string); i++)
+			{	
+				var s = instance_string[i];
+				if(s == "{" || s == "[")
+				{
+					depth ++;	
+					m += s;
+				}
+				else if(s == "}" || s == "]")
+				{
+					depth --;
+					m += s;
+				}
+				else if((s == "," && depth == 0 && m != ""))
+				{
+					aadd(map, m);
+					m = "";
+				}
+				else if((s == "," && depth == 0 && m == ""))
+					i;
+				else
+					m += s;
+				if(i == len(instance_string)-1)
+					aadd(map,m);
+			}
+			trace(map);
+			for(var i = 0; i <len(map); i++)
+			{
+				var kv = ssplit(map[i], ":", 0, indexOf(map[i], "$")+1);
+				trace(kv);
+				var k = kv[0];
+				var v = kv[1];
+				
+				_instance.__SET(k, Deserialize(v));
+//				aadd(keys, k);
+//				aadd(values, Deserialize(v));
+			}
+			return _instance;
 		}
 	}
-	
-	for(var i = 0; i < len(key); i++)
+	else if(s[0] == "[")
 	{
-		c.__SET(key[i], VarStringDecode(value[i]));
+		var depth = 0;
+		var map = array(0);
+		var m = "";
+			map = array(0);
+			 m = "";
+			 depth = 0;
+			for(var i = 1; i<len(s)-1; i++)
+			{	
+				if(s[i] == "{" || s[i] == "[")
+				{
+					depth ++;	
+					m += s[i];
+				}
+				else if(s[i] == "}" || s[i] == "]")
+				{
+					depth --;
+					m += s[i];
+				}
+				else if((s[i] == "," && depth == 0 && m != ""))
+				{
+					aadd(map, m);
+					m = "";
+				}
+				else if((s[i] == "," && depth == 0 && m == ""))
+					i;
+				else
+					m += s[i];
+				if(i == len(s)-1)
+					aadd(map,m);
+			}
+			trace(map);
+			outputln(len(map));
+			var _instance = array(0);
+			for(var i = 0; i<len(map); i++)
+			
+			{
+				aadd(_instance, Deserialize(map[i]));
+			}
+			return _instance;
 	}
-	return c;
-	
+	else
+	{
+		return VarStringDecode(s);
+	}
 }
 
-function Serializer::RegisterAttribute(attr)
-{
-	if(attr == null)
-		attributes = array(0);
-	if(valtype(attr) == "S")
-	{
-		aadd(attributes, attr);
-		return;
-	} 
-	else if(valtype(attr) == "A" || valtype(attr) == "V") 
-	{
-		foreach(var a in attr) 
-		{
-			aadd(attributes, a);
-		}
-		return;
-	}
-}
+//function Serializer::Deserialize(s)
+//{
+//	var state = _OUT;
+//	var depth = 0;
+//	var keys = array(0);
+//	var value = "";
+//	var class_names = array(0);
+//	var instances = array(0);
+//	
+//	for(var i = 0; i < len(s); i++)
+//	{
+//		var ch = s[i];
+//		switch(state)
+//		{
+//			case _OUT:
+//				if(ch == "{")
+//				{
+//					state = _CLASSNAME;
+//					depth ++;					
+//				} 
+//
+//				break;
+//				
+//			case _CLASSNAME:
+//				if(ch == " ")
+//				{
+//					var _instance = callback(class_names[len(class_names)-1] + "_Factory");
+//					_instance = _instance[0];
+//					aadd(instances, _instance);
+//					aadd(keys, "");
+//					state = _KEY;	
+//				}
+//				else if(ch == "$")
+//				{
+//					aadd(class_names, "");
+//				}
+//				else if(ch != "$")
+//				{
+//					class_names[len(class_names)-1] += ch;
+//				}			
+//				break;
+//				
+//			case _KEY:
+//				if(ch == ":")
+//				{
+//					state = _OBJECT;
+//					value = "";
+//				}
+//				else
+//					keys[len(keys)-1] += ch;
+//				break;
+//			
+//			case _OBJECT:
+//				if(ch == "{")
+//				{
+//					depth ++;
+//					state = _CLASSNAME;
+//				}
+//				else if(ch =="[")
+//				{
+//					state = _ARRAY;
+//				}
+//				else
+//				{
+//					value = ch;
+//					state = _PRIMITIVE;
+//				}
+//
+//				break;
+//				
+//			case _PRIMITIVE:
+//				if(ch == "," || ch == "}")
+//				{
+//					value = VarStringDecode(value);
+//					if(valtype(instances[len(instances)-depth].__GET( keys[len(keys)-1])) != "A")
+//					{
+//						instances[len(instances)-depth].__SET(keys[len(keys)-1], value);
+//						state = _KEY;
+//						keys[len(keys)-1] = "";
+//
+//					}
+//					else
+//					{
+//						aadd(instances[len(instances)-1].__GET( keys[len(keys)-1]), value);
+//						outputln(instances[len(instances)-1].__GET( keys[len(keys)-1]), ch);
+//						state = _SEPARATOR;
+//						value = ""; 
+//					}
+//
+//					if(ch == "}")
+//					{
+//						depth --;
+//						state = _SEPARATOR;
+//						if(depth > 0)
+//							adel(instances, len(instances)-1);
+//					}
+//				}
+//				else
+//				{
+//					value += ch;
+//				}
+//				break;
+//				
+//			case _ARRAY:
+//				if(ch == "{")
+//				{
+//					depth ++;
+//					state = _CLASSNAME;
+//				}
+//				else if(ch == "]")
+//				{
+//					state = _SEPARATOR;
+//				}
+//				else 
+//				{
+//					value = ch;
+//					state = _PRIMITIVE;
+//				}
+//				break;
+//				
+//			case _SEPARATOR:
+//				if(ch == "}")
+//				{
+//					value = instances[len(instances)-depth];
+//					outputln(keys[len(keys)-1], value);
+//					if(valtype(instances[len(instances)-depth].__GET( keys[len(keys)-1])) != "A")
+//					{
+//						instances[len(instances)-depth].__SET(keys[len(keys)-1], value);
+//						state = _SEPARATOR;
+//						asize(keys, len(keys)-1);
+//					}
+//					depth--;
+//				}
+//				else if(ch == "," || ch == "]")
+//				{
+//					state = _SEPARATOR;
+//					if(ch == "]"){
+//						asize(keys, len(keys)-1);	
+//					}
+//									
+//				}
+//				else if(ch == "{")
+//				{
+//					state = _CLASSNAME;
+//					depth ++;
+//				}
+//				else if(ch == " ")
+//					state = _OBJECT;
+//	
+//				else
+//				{
+//					aadd(keys, "");
+//					keys[len(keys)-1] = ch;
+//					state = _KEY;
+//				}
+//				break;
+//			
+//			default:
+//				break;
+//			
+//		}
+//	}
+//
+//	return instances[0];
+//}
+
+
+//function Serializer::RegisterAttribute(attr)
+//{
+//	if(attr == null)
+//		attributes = array(0);
+//	if(valtype(attr) == "S")
+//	{
+//		aadd(attributes, attr);
+//		return;
+//	} 
+//	else if(valtype(attr) == "A" || valtype(attr) == "V") 
+//	{
+//		foreach(var a in attr) 
+//		{
+//			aadd(attributes, a);
+//		}
+//		return;
+//	}
+//}
