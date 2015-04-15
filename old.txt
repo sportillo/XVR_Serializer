@@ -1,0 +1,167 @@
+
+//function Serializer::Deserialize(s)
+//{
+//	var state = _OUT;
+//	var depth = 0;
+//	var keys = array(0);
+//	var value = "";
+//	var class_names = array(0);
+//	var instances = array(0);
+//	
+//	for(var i = 0; i < len(s); i++)
+//	{
+//		var ch = s[i];
+//		switch(state)
+//		{
+//			case _OUT:
+//				if(ch == "{")
+//				{
+//					state = _CLASSNAME;
+//					depth ++;					
+//				} 
+//
+//				break;
+//				
+//			case _CLASSNAME:
+//				if(ch == " ")
+//				{
+//					var _instance = callback(class_names[len(class_names)-1] + "_Factory");
+//					_instance = _instance[0];
+//					aadd(instances, _instance);
+//					aadd(keys, "");
+//					state = _KEY;	
+//				}
+//				else if(ch == "$")
+//				{
+//					aadd(class_names, "");
+//				}
+//				else if(ch != "$")
+//				{
+//					class_names[len(class_names)-1] += ch;
+//				}			
+//				break;
+//				
+//			case _KEY:
+//				if(ch == ":")
+//				{
+//					state = _OBJECT;
+//					value = "";
+//				}
+//				else
+//					keys[len(keys)-1] += ch;
+//				break;
+//			
+//			case _OBJECT:
+//				if(ch == "{")
+//				{
+//					depth ++;
+//					state = _CLASSNAME;
+//				}
+//				else if(ch =="[")
+//				{
+//					state = _ARRAY;
+//				}
+//				else
+//				{
+//					value = ch;
+//					state = _PRIMITIVE;
+//				}
+//
+//				break;
+//				
+//			case _PRIMITIVE:
+//				if(ch == "," || ch == "}")
+//				{
+//					value = VarStringDecode(value);
+//					if(valtype(instances[len(instances)-depth].__GET( keys[len(keys)-1])) != "A")
+//					{
+//						instances[len(instances)-depth].__SET(keys[len(keys)-1], value);
+//						state = _KEY;
+//						keys[len(keys)-1] = "";
+//
+//					}
+//					else
+//					{
+//						aadd(instances[len(instances)-1].__GET( keys[len(keys)-1]), value);
+//						outputln(instances[len(instances)-1].__GET( keys[len(keys)-1]), ch);
+//						state = _SEPARATOR;
+//						value = ""; 
+//					}
+//
+//					if(ch == "}")
+//					{
+//						depth --;
+//						state = _SEPARATOR;
+//						if(depth > 0)
+//							adel(instances, len(instances)-1);
+//					}
+//				}
+//				else
+//				{
+//					value += ch;
+//				}
+//				break;
+//				
+//			case _ARRAY:
+//				if(ch == "{")
+//				{
+//					depth ++;
+//					state = _CLASSNAME;
+//				}
+//				else if(ch == "]")
+//				{
+//					state = _SEPARATOR;
+//				}
+//				else 
+//				{
+//					value = ch;
+//					state = _PRIMITIVE;
+//				}
+//				break;
+//				
+//			case _SEPARATOR:
+//				if(ch == "}")
+//				{
+//					value = instances[len(instances)-depth];
+//					outputln(keys[len(keys)-1], value);
+//					if(valtype(instances[len(instances)-depth].__GET( keys[len(keys)-1])) != "A")
+//					{
+//						instances[len(instances)-depth].__SET(keys[len(keys)-1], value);
+//						state = _SEPARATOR;
+//						asize(keys, len(keys)-1);
+//					}
+//					depth--;
+//				}
+//				else if(ch == "," || ch == "]")
+//				{
+//					state = _SEPARATOR;
+//					if(ch == "]"){
+//						asize(keys, len(keys)-1);	
+//					}
+//									
+//				}
+//				else if(ch == "{")
+//				{
+//					state = _CLASSNAME;
+//					depth ++;
+//				}
+//				else if(ch == " ")
+//					state = _OBJECT;
+//	
+//				else
+//				{
+//					aadd(keys, "");
+//					keys[len(keys)-1] = ch;
+//					state = _KEY;
+//				}
+//				break;
+//			
+//			default:
+//				break;
+//			
+//		}
+//	}
+//
+//	return instances[0];
+//}
+

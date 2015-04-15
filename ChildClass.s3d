@@ -9,5 +9,5 @@ function ChildClass::ChildClass(){
 }
 
 function ChildClass_Factory(){
-	return {ChildClass(), {"id", "name"}};
+	return {ChildClass(), {"id", "arr", "name"}};
 }
