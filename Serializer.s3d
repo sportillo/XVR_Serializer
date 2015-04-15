@@ -127,9 +127,9 @@ function Serializer::Deserialize(s)
 		var _instance = callback(substr(c, 0, len(c))+"_Factory");
 		_instance = _instance[0];
 		var instance_string = substr(s, ++i, reverseIndexOf(s, "}"));
-		trace(instance_string);
+//		trace(instance_string);
 		var map = mapString(instance_string);
-		trace(map);
+//		trace(map);
 		for(var i = 0; i <len(map); i++)
 		{
 			var kv = ssplit(map[i], ":", 0, indexOf(map[i], "$")+1);
