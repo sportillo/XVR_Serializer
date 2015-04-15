@@ -4,7 +4,7 @@ class TestClass{
 	var name;
 	var id;
 	var myarray;
-	
+	var vec;
 	var child;
 	var children;
 	test();
@@ -16,5 +16,5 @@ function TestClass::TestClass(){
 }
 
 function TestClass_Factory(){
-	return {TestClass(), {"id", "child", "name", "children"}};
+	return {TestClass(), {"id", "child", "name", "children", "vec"}};
 }

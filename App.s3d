@@ -48,6 +48,7 @@ function OnInit(params)
 	tc.myarray = {true, 1, "Lorem"};
 	tc.child = ChildClass();
 	tc.child.name = "Figlio";
+	tc.vec = [1,2,3];
 	tc.child.id = 2;
 	var nepow = ChildClass();
 	nepow.id = 3;
@@ -84,7 +85,7 @@ function OnInit(params)
 	outputln("Children: ", new_tc.children);
 	outputln("Nepow name: ", new_tc.children[1].arr[1].name);
 	outputln("Nepow id: ", new_tc.children[1].arr[1].id);
-	
+	outputln("Father vector [1]: ", new_tc.vec[1]);
 }
 
 function OnFrame()
