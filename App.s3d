@@ -53,8 +53,7 @@ function OnInit(params)
 	var nepow = ChildClass();
 	nepow.id = 3;
 	nepow.name = "Nepow";
-	tc.child.arr = {"Stringa in array di figlio", nepow};
-
+	tc.child.arr = {"{$This {% is { a :, str}ing,", nepow};
 	
 	tc.children = {tc.child, tc.child, true, 2, "Ipsum"};
 	tc_serializer = Serializer();

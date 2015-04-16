@@ -2,7 +2,8 @@
 
 class Serializer
 {
-	var separator;
+	var arrayEscape;
+	var objectEscape;
 	var class_instance;
 	var attributes;
 	Serialize(c);
@@ -11,18 +12,21 @@ class Serializer
 	_extractString(s_);
 	_mapKeyValue(_s, start, end);
 	_mapArray(_s, start, end);
+	_isArray(s_);
+	_isObject(s_);
 };
 
 function Serializer::Serializer()
 {
 	attributes = array(0);
-	separator = ":";
+	arrayEscape = "{%";
+	objectEscape = "{$";
 }
 
 function Serializer::_extractString(s_)
 {	
 	var strlen = val(substr(s_, 0, indexOf(s_, ":")));
-	var s = substr(s_, indexOf(s_, separator)+1, indexOf(s_, separator)+strlen+1);
+	var s = substr(s_, indexOf(s_, ":")+1, indexOf(s_, ":")+strlen+1);
 	return s;
 }
 
@@ -40,7 +44,7 @@ function Serializer::Serialize(c)
 		{
 			instance.__SET(a,c.__GET(a));
 		}
-		sstring = "{$" + instance.__GetName() + " ";
+		sstring = objectEscape + instance.__GetName() + " ";
 		for(var i = 0; i < len(attributes); i++)
 		{
 			var value = instance.__Get(attributes[i]);
@@ -48,16 +52,16 @@ function Serializer::Serialize(c)
 			switch(valtype(value)[0])
 			{
 				case "O":
-					sstring += attributes[i] + separator + Serialize(value);
+					sstring += attributes[i] + ":" + Serialize(value);
 					break;
 				case "A":
 					for(var v = 0; v<len(value); v++)
 						el += Serialize(value[v]);
 
-					sstring += attributes[i] + separator + str(len(el)+2) + separator + "{" + el + "}";
+					sstring += attributes[i] + ":" + str(len(el)+1+len(arrayEscape)) + ":" + arrayEscape + el + "}";
 					break;
 				default:
-					sstring += attributes[i] + separator + str(len(VarStringEncode(value))) + separator + VarStringEncode(value);
+					sstring += attributes[i] + ":" + str(len(VarStringEncode(value))) + ":" + VarStringEncode(value);
 					break;
 			}
 		} 
@@ -65,7 +69,7 @@ function Serializer::Serialize(c)
 	} else {
 		sstring += VarStringEncode(c);
 	}
-	return str(len(sstring)) + separator + sstring;
+	return str(len(sstring)) + ":" + sstring;
 }
 
 function Serializer::_mapKeyValue(_s, start, end)
@@ -76,11 +80,11 @@ function Serializer::_mapKeyValue(_s, start, end)
 	end = (end != Void) ? end : len(_s);
 	for(var i = start; i<end; i++)
 	{	
-		var k = substr(_s, i, indexOf(_s, separator, i));
+		var k = substr(_s, i, indexOf(_s, ":", i));
 		i = indexOf(_s, ":", i)+1;
-		var l = val(substr(_s, i, indexOf(_s, separator, i+1)));
-		i = indexOf(_s, separator, i+1)+1; //escape ,
-		var v = str(l) + separator + substr(_s, i, i+l);
+		var l = val(substr(_s, i, indexOf(_s, ":", i+1)));
+		i = indexOf(_s, ":", i+1)+1; //escape ,
+		var v = str(l) + ":" + substr(_s, i, i+l);
 		i = i+l-1;
 //		trace(k, l, v, i);
 		aadd(key, k);
@@ -97,8 +101,8 @@ function Serializer::_mapArray(_s, start, end)
 	for(var i = start; i<end; i++)
 	{
 		var l = val(substr(_s, i, indexOf(_s, ":", i)));
-		i = indexOf(_s, separator, i+1); //escape ,
-		var v = str(l) + separator + substr(_s, i+1, i+l+1);
+		i = indexOf(_s, ":", i+1); //escape ,
+		var v = str(l) + ":" + substr(_s, i+1, i+l+1);
 		i = i+l;
 //		trace(v, i);
 		if(v != "0:")
@@ -107,12 +111,31 @@ function Serializer::_mapArray(_s, start, end)
 	return arr;
 }
 
+function Serializer::_isObject(s_)
+{
+	for(var i = 0; i<len(objectEscape); i++)
+	{
+		if(s_[i] != objectEscape[i])
+			return false;
+	}
+	return true;
+}
+
+function Serializer::_isArray(s_)
+{
+	for(var i = 0; i<len(arrayEscape); i++)
+	{
+		if(s_[i] != arrayEscape[i])
+			return false;
+	}
+	return true;
+}
 
 function Serializer::Deserialize(s_)
 {
 	var s = _extractString(s_);
 	//var s = s_;
-	if(s[0] == "{" && s[1] == "$"){
+	if(_isObject(s)){
 		
 		var i = indexOf(s, " ", 2);
 		var c = substr(s, 2, i);
@@ -131,10 +154,10 @@ function Serializer::Deserialize(s_)
 		}
 		return _instance;
 	}
-	else if(s[0] == "{")
+	else if(_isArray(s))
 	{	
 		var instance = array(0);
-		var els = _mapArray(s, 1);
+		var els = _mapArray(s, len(arrayEscape));
 //		trace(els);
 		foreach(var e in els )
 		{
