@@ -16,5 +16,5 @@ function TestClass::TestClass(){
 }
 
 function TestClass_Factory(){
-	return {TestClass(), {"id", "child", "name", "children", "vec"}};
+	return {TestClass(), {"id", "child", "name", "vec", "children"}};
 }

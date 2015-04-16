@@ -53,16 +53,11 @@ function Serializer::Serialize(c)
 						sstring += ",";
 					break;
 				case "V":
-					sstring += attributes[i] + ":" + "[";
-					for(var v = 0; v<len(value); v++)
+					sstring += attributes[i] + ":" + VarStringEncode(instance.__Get(attributes[i]));
+					if(i != len(attributes) - 1)
 					{
-						sstring += Serialize(value[v]);
-						if(v!=len(value)-1)
-							sstring += " ";
-					}
-					sstring += "]";
-					if(i != len(attributes) -1)
 						sstring += ",";
+					}
 					break;
 				default:
 					sstring += attributes[i] + ":" + VarStringEncode(instance.__Get(attributes[i]));
@@ -139,45 +134,6 @@ function Serializer::Deserialize(s)
 			
 			_instance.__SET(k, Deserialize(v));
 		}
-		return _instance;
-	}
-	else if(s[0] == "[")
-	{
-		var depth = 0;
-		var map = array(0);
-		var m = "";
-		for(var i = 1; i<len(s)-1; i++)
-		{	
-			if(s[i] == "{" || s[i] == "[")
-			{
-				depth ++;	
-				m += s[i];
-			}
-			else if(s[i] == "}" || s[i] == "]")
-			{
-				depth --;
-				m += s[i];
-			}
-			else if((s[i] == "," && depth == 0 && m != ""))
-			{
-				aadd(map, m);
-				m = "";
-			}
-			else if((s[i] == "," && depth == 0 && m == "") || (m == "" && s[i] == " "))
-				i;
-			else
-				m += s[i];
-			if(i == len(s)-1)
-			{	
-				aadd(map,m);
-			}
-		}
-		var _instance = Vector(len(map));
-		for(var i = 0; i<len(map); i++)
-		{
-			_instance[i] = Deserialize(map[i]);
-		}
-//		trace(_instance);
 		return _instance;
 	}
 	else if(s[0] == "{")
