@@ -2,15 +2,28 @@
 
 class Serializer
 {
+	var separator;
 	var class_instance;
 	var attributes;
 	Serialize(c);
 	Deserialize(sstring);
+	
+	_extractString(s_);
+	_mapKeyValue(_s, start, end);
+	_mapArray(_s, start, end);
 };
 
 function Serializer::Serializer()
 {
 	attributes = array(0);
+	separator = ":";
+}
+
+function Serializer::_extractString(s_)
+{	
+	var strlen = val(substr(s_, 0, indexOf(s_, ":")));
+	var s = substr(s_, indexOf(s_, separator)+1, indexOf(s_, separator)+strlen+1);
+	return s;
 }
 
 function Serializer::Serialize(c)
@@ -31,153 +44,107 @@ function Serializer::Serialize(c)
 		for(var i = 0; i < len(attributes); i++)
 		{
 			var value = instance.__Get(attributes[i]);
+			var el = "";
 			switch(valtype(value)[0])
 			{
 				case "O":
-					sstring += attributes[i] + ":" + Serialize(value);
-					if(i != len(attributes) - 1)
-					{
-						sstring += ",";
-					}
+					sstring += attributes[i] + separator + Serialize(value);
 					break;
 				case "A":
-					sstring += attributes[i] + ":" + "{";
 					for(var v = 0; v<len(value); v++)
-					{
-						sstring += Serialize(value[v]);
-						if(v!=len(value)-1)
-							sstring += " ";
-					}
-					sstring += "}";
-					if(i != len(attributes) -1)
-						sstring += ",";
-					break;
-				case "V":
-					sstring += attributes[i] + ":" + VarStringEncode(instance.__Get(attributes[i]));
-					if(i != len(attributes) - 1)
-					{
-						sstring += ",";
-					}
+						el += Serialize(value[v]);
+
+					sstring += attributes[i] + separator + str(len(el)+2) + separator + "{" + el + "}";
 					break;
 				default:
-					sstring += attributes[i] + ":" + VarStringEncode(instance.__Get(attributes[i]));
-					if(i != len(attributes) - 1)
-					{
-						sstring += ",";
-					}
+					sstring += attributes[i] + separator + str(len(VarStringEncode(value))) + separator + VarStringEncode(value);
 					break;
 			}
 		} 
-		sstring += "},";
+		sstring += "}";
 	} else {
-		sstring += VarStringEncode(c) + ",";
+		sstring += VarStringEncode(c);
 	}
-	return sstring;
+	return str(len(sstring)) + separator + sstring;
 }
 
-function mapString(_s, start, end)
+function Serializer::_mapKeyValue(_s, start, end)
 {
-	var map = array(0);
-	var m = "";
-	var depth = 0;
+	var key = array(0);
+	var value = array(0);
 	start = (start != Void) ? start : 0;
 	end = (end != Void) ? end : len(_s);
 	for(var i = start; i<end; i++)
 	{	
-		var s = _s[i];
-		if(s == "{" || s == "[")
-		{
-			depth ++;	
-			m += s;
-		}
-		else if(s == "}" || s == "]")
-		{
-			depth --;
-			m += s;
-		}
-		else if((s == "," && depth == 0 && m != "") || (m == "" && s[i] == " "))
-		{
-			aadd(map, m);
-			m = "";
-		}
-		else if((s == "," && depth == 0 && m == ""))
-			i;
-		else
-			m += s;
-		if(i == end-1)
-			aadd(map,m);
+		var k = substr(_s, i, indexOf(_s, separator, i));
+		i = indexOf(_s, ":", i)+1;
+		var l = val(substr(_s, i, indexOf(_s, separator, i+1)));
+		i = indexOf(_s, separator, i+1)+1; //escape ,
+		var v = str(l) + separator + substr(_s, i, i+l);
+		i = i+l-1;
+//		trace(k, l, v, i);
+		aadd(key, k);
+		aadd(value, v);
 	}
-	return map;
+	return {key, value};
 }
 
-function Serializer::Deserialize(s)
+function Serializer::_mapArray(_s, start, end) 
 {
-	var keys = array(0);
-	var values = array(0);
-	
+	var arr = array(0);
+	start = (start != Void) ? start : 0;
+	end = (end != Void) ? end : len(_s);
+	for(var i = start; i<end; i++)
+	{
+		var l = val(substr(_s, i, indexOf(_s, ":", i)));
+		i = indexOf(_s, separator, i+1); //escape ,
+		var v = str(l) + separator + substr(_s, i+1, i+l+1);
+		i = i+l;
+//		trace(v, i);
+		if(v != "0:")
+			aadd(arr, v);
+	}
+	return arr;
+}
+
+
+function Serializer::Deserialize(s_)
+{
+	var s = _extractString(s_);
+	//var s = s_;
 	if(s[0] == "{" && s[1] == "$"){
+		
 		var i = indexOf(s, " ", 2);
 		var c = substr(s, 2, i);
 //		trace(c);
 		var _instance = callback(substr(c, 0, len(c))+"_Factory");
 		_instance = _instance[0];
-		var instance_string = substr(s, ++i, reverseIndexOf(s, "}"));
+		var instance_string = substr(s, i+1, len(s)-len(c)-3+i); //3 is for ($ and space
 //		trace(instance_string);
-		var map = mapString(instance_string);
-//		trace(map);
-		for(var i = 0; i <len(map); i++)
+		var kv = _mapKeyValue(instance_string);
+//		trace(kv);
+		var key = kv[0];
+		var value = kv[1];
+		for(var i = 0; i < len(key); i++)
 		{
-			var kv = ssplit(map[i], ":", 0, indexOf(map[i], "$")+1);
-//			trace(kv);
-			var k = kv[0];
-			var v = kv[1];
-			
-			_instance.__SET(k, Deserialize(v));
+			_instance.__SET(key[i], Deserialize(value[i]));
 		}
 		return _instance;
 	}
 	else if(s[0] == "{")
-	{
-		var depth = 0;
-		var map = array(0);
-		var m = "";
-		for(var i = 1; i<len(s)-1; i++)
-		{	
-			if(s[i] == "{" || s[i] == "[")
-			{
-				depth ++;	
-				m += s[i];
-			}
-			else if(s[i] == "}" || s[i] == "]")
-			{
-				depth --;
-				m += s[i];
-			}
-			else if((s[i] == "," && depth == 0 && m != ""))
-			{
-				aadd(map, m);
-				m = "";
-			}
-			else if((s[i] == "," && depth == 0 && m == "") || (m == "" && s[i] == " "))
-				i;
-			else
-				m += s[i];
-			if(i == len(s)-1)
-			{	
-				aadd(map,m);
-			}
-		}
-		var _instance = array(0);
-		for(var i = 0; i<len(map); i++)
+	{	
+		var instance = array(0);
+		var els = _mapArray(s, 1);
+//		trace(els);
+		foreach(var e in els )
 		{
-			aadd(_instance, Deserialize(map[i]));
+			aadd(instance, Deserialize(e));
 		}
-//		trace(_instance);
-		return _instance;
+		return instance;
 	}
 	else
 	{
-//		outputln(s);
+//		trace(s);
 		return VarStringDecode(s);
 	}
 }

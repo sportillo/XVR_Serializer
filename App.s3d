@@ -83,6 +83,7 @@ function OnInit(params)
 	outputln("Child name: ", new_tc.child.name);
 	outputln("Child ID: ", new_tc.child.id);
 	outputln("Children: ", new_tc.children);
+	outputln("Children array string: ", new_tc.child.arr[0]);
 	outputln("Nepow name: ", new_tc.children[1].arr[1].name);
 	outputln("Nepow id: ", new_tc.children[1].arr[1].id);
 	outputln("Father vector [1]: ", new_tc.vec[1]);

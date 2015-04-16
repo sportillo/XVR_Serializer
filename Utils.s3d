@@ -6,6 +6,14 @@ function substr(s, start, end)
 	return _s;
 }
 
+function substrAt(s, start, at)
+{
+	var _s = "";
+	for(var i = 0; i < at; i++)
+		_s += s[i+start];
+	return _s;
+}
+
 function ssplit(s, sep, start, end) {
 	start = (start != Void) ? start: 0;
 	end = (end != Void) ? end : len(s);
