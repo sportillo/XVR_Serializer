@@ -19,8 +19,8 @@ class Serializer
 function Serializer::Serializer()
 {
 	attributes = array(0);
-	arrayEscape = "{%";
-	objectEscape = "{$";
+	arrayEscape = "{%@#";
+	objectEscape = "{$%%";
 }
 
 function Serializer::_extractString(s_)
@@ -137,12 +137,12 @@ function Serializer::Deserialize(s_)
 	//var s = s_;
 	if(_isObject(s)){
 		
-		var i = indexOf(s, " ", 2);
-		var c = substr(s, 2, i);
+		var i = indexOf(s, " ", len(objectEscape));
+		var c = substr(s, len(objectEscape), i);
 //		trace(c);
 		var _instance = callback(substr(c, 0, len(c))+"_Factory");
 		_instance = _instance[0];
-		var instance_string = substr(s, i+1, len(s)-len(c)-3+i); //3 is for ($ and space
+		var instance_string = substr(s, i+1, len(s)-len(c)-len(objectEscape)-1+i); //3 is for ($ and space
 //		trace(instance_string);
 		var kv = _mapKeyValue(instance_string);
 //		trace(kv);

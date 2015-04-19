@@ -26,10 +26,10 @@
 	"filenames" : 
 	[
 		"App.s3d",
-		"C:/Program Files (x86)/VRMedia/XVRStudio2.0/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/Script3d.h",
-		"C:/Program Files (x86)/VRMedia/XVRStudio2.0/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/GLConst.h",
-		"C:/Program Files (x86)/VRMedia/XVRStudio2.0/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/VirtualKey.h",
-		"C:/Program Files (x86)/VRMedia/XVRStudio2.0/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/Camera.s3d.h",
+		"C:/Program Files (x86)/VRMedia/XVRStudio2.0.11/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/Script3d.h",
+		"C:/Program Files (x86)/VRMedia/XVRStudio2.0.11/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/GLConst.h",
+		"C:/Program Files (x86)/VRMedia/XVRStudio2.0.11/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/VirtualKey.h",
+		"C:/Program Files (x86)/VRMedia/XVRStudio2.0.11/Editor/plugins/org.xvr.xvrengine_1.0.0/VRMedia/Include/Camera.s3d.h",
 		"TestClass.s3d",
 		"ChildClass.s3d",
 		"Serializer.s3d",
@@ -3662,279 +3662,279 @@
 				
 				{
 					"line" : 29,
-					"offset" : 1693
+					"offset" : 1700
 				},
 				
 				{
 					"line" : 33,
-					"offset" : 1694
-				},
-				
-				{
-					"line" : 36,
-					"offset" : 1695
-				},
-				
-				{
-					"line" : 39,
-					"offset" : 1696
-				},
-				
-				{
-					"line" : 40,
-					"offset" : 1698
-				},
-				
-				{
-					"line" : 41,
 					"offset" : 1701
 				},
 				
 				{
-					"line" : 42,
-					"offset" : 1706
+					"line" : 36,
+					"offset" : 1702
 				},
 				
 				{
-					"line" : 45,
+					"line" : 39,
+					"offset" : 1703
+				},
+				
+				{
+					"line" : 40,
+					"offset" : 1705
+				},
+				
+				{
+					"line" : 41,
 					"offset" : 1708
 				},
 				
 				{
+					"line" : 42,
+					"offset" : 1713
+				},
+				
+				{
+					"line" : 45,
+					"offset" : 1715
+				},
+				
+				{
 					"line" : 46,
-					"offset" : 1710
-				},
-				
-				{
-					"line" : 47,
-					"offset" : 1711
-				},
-				
-				{
-					"line" : 48,
-					"offset" : 1712
-				},
-				
-				{
-					"line" : 49,
 					"offset" : 1717
 				},
 				
 				{
-					"line" : 50,
-					"offset" : 1720
+					"line" : 47,
+					"offset" : 1718
 				},
 				
 				{
-					"line" : 51,
-					"offset" : 1723
+					"line" : 48,
+					"offset" : 1719
 				},
 				
 				{
-					"line" : 52,
+					"line" : 49,
 					"offset" : 1724
 				},
 				
 				{
-					"line" : 53,
+					"line" : 50,
 					"offset" : 1727
 				},
 				
 				{
-					"line" : 54,
-					"offset" : 1729
-				},
-				
-				{
-					"line" : 55,
+					"line" : 51,
 					"offset" : 1730
 				},
 				
 				{
-					"line" : 56,
+					"line" : 52,
 					"offset" : 1731
 				},
 				
 				{
-					"line" : 58,
+					"line" : 53,
+					"offset" : 1734
+				},
+				
+				{
+					"line" : 54,
+					"offset" : 1736
+				},
+				
+				{
+					"line" : 55,
 					"offset" : 1737
 				},
 				
 				{
+					"line" : 56,
+					"offset" : 1738
+				},
+				
+				{
+					"line" : 58,
+					"offset" : 1751
+				},
+				
+				{
 					"line" : 59,
-					"offset" : 1746
+					"offset" : 1760
 				},
 				
 				{
 					"line" : 64,
-					"offset" : 1748
+					"offset" : 1762
 				},
 				
 				{
 					"line" : 69,
-					"offset" : 1752
+					"offset" : 1766
 				},
 				
 				{
 					"line" : 70,
-					"offset" : 1755
+					"offset" : 1769
 				},
 				
 				{
 					"line" : 71,
-					"offset" : 1758
-				},
-				
-				{
-					"line" : 72,
-					"offset" : 1761
-				},
-				
-				{
-					"line" : 79,
-					"offset" : 1763
-				},
-				
-				{
-					"line" : 80,
-					"offset" : 1767
-				},
-				
-				{
-					"line" : 81,
 					"offset" : 1772
 				},
 				
 				{
-					"line" : 82,
+					"line" : 72,
+					"offset" : 1775
+				},
+				
+				{
+					"line" : 79,
 					"offset" : 1777
 				},
 				
 				{
+					"line" : 80,
+					"offset" : 1781
+				},
+				
+				{
+					"line" : 81,
+					"offset" : 1786
+				},
+				
+				{
+					"line" : 82,
+					"offset" : 1791
+				},
+				
+				{
 					"line" : 83,
-					"offset" : 1783
+					"offset" : 1797
 				},
 				
 				{
 					"line" : 84,
-					"offset" : 1789
+					"offset" : 1803
 				},
 				
 				{
 					"line" : 85,
-					"offset" : 1794
+					"offset" : 1808
 				},
 				
 				{
 					"line" : 86,
-					"offset" : 1801
+					"offset" : 1815
 				},
 				
 				{
 					"line" : 87,
-					"offset" : 1810
+					"offset" : 1824
 				},
 				
 				{
 					"line" : 88,
-					"offset" : 1819
-				},
-				
-				{
-					"line" : 89,
-					"offset" : 1825
-				},
-				
-				{
-					"line" : 91,
-					"offset" : 1826
-				},
-				
-				{
-					"line" : 94,
-					"offset" : 1827
-				},
-				
-				{
-					"line" : 96,
-					"offset" : 1829
-				},
-				
-				{
-					"line" : 100,
-					"offset" : 1831
-				},
-				
-				{
-					"line" : 101,
 					"offset" : 1833
 				},
 				
 				{
-					"line" : 105,
-					"offset" : 1834
-				},
-				
-				{
-					"line" : 108,
-					"offset" : 1835
-				},
-				
-				{
-					"line" : 112,
-					"offset" : 1836
-				},
-				
-				{
-					"line" : 115,
-					"offset" : 1837
-				},
-				
-				{
-					"line" : 118,
-					"offset" : 1838
-				},
-				
-				{
-					"line" : 120,
+					"line" : 89,
 					"offset" : 1839
 				},
 				
 				{
-					"line" : 122,
+					"line" : 91,
 					"offset" : 1840
 				},
 				
 				{
-					"line" : 124,
+					"line" : 94,
 					"offset" : 1841
 				},
 				
 				{
-					"line" : 127,
-					"offset" : 1842
-				},
-				
-				{
-					"line" : 130,
+					"line" : 96,
 					"offset" : 1843
 				},
 				
 				{
+					"line" : 100,
+					"offset" : 1845
+				},
+				
+				{
+					"line" : 101,
+					"offset" : 1847
+				},
+				
+				{
+					"line" : 105,
+					"offset" : 1848
+				},
+				
+				{
+					"line" : 108,
+					"offset" : 1849
+				},
+				
+				{
+					"line" : 112,
+					"offset" : 1850
+				},
+				
+				{
+					"line" : 115,
+					"offset" : 1851
+				},
+				
+				{
+					"line" : 118,
+					"offset" : 1852
+				},
+				
+				{
+					"line" : 120,
+					"offset" : 1853
+				},
+				
+				{
+					"line" : 122,
+					"offset" : 1854
+				},
+				
+				{
+					"line" : 124,
+					"offset" : 1855
+				},
+				
+				{
+					"line" : 127,
+					"offset" : 1856
+				},
+				
+				{
+					"line" : 130,
+					"offset" : 1857
+				},
+				
+				{
 					"line" : 135,
-					"offset" : 1844
+					"offset" : 1858
 				},
 				
 				{
 					"line" : 138,
-					"offset" : 1845
+					"offset" : 1859
 				}
 			],
 			"offsets" : 
 			[
 				
 				{
-					"endoffset" : 1845,
+					"endoffset" : 1859,
 					"startoffset" : 0
 				}
 			]
@@ -6629,109 +6629,109 @@
 				
 				{
 					"line" : 141,
-					"offset" : 1512
+					"offset" : 1514
 				},
 				
 				{
 					"line" : 143,
-					"offset" : 1518
+					"offset" : 1522
 				},
 				
 				{
 					"line" : 144,
-					"offset" : 1530
+					"offset" : 1534
 				},
 				
 				{
 					"line" : 145,
-					"offset" : 1531
+					"offset" : 1535
 				},
 				
 				{
 					"line" : 147,
-					"offset" : 1543
+					"offset" : 1550
 				},
 				
 				{
 					"line" : 149,
-					"offset" : 1547
+					"offset" : 1554
 				},
 				
 				{
 					"line" : 150,
-					"offset" : 1548
+					"offset" : 1555
 				},
 				
 				{
 					"line" : 151,
-					"offset" : 1549
+					"offset" : 1556
 				},
 				
 				{
 					"line" : 153,
-					"offset" : 1552
+					"offset" : 1559
 				},
 				
 				{
 					"line" : 151,
-					"offset" : 1562
+					"offset" : 1569
 				},
 				
 				{
 					"line" : 154,
-					"offset" : 1563
-				},
-				
-				{
-					"line" : 155,
-					"offset" : 1564
-				},
-				
-				{
-					"line" : 157,
-					"offset" : 1565
-				},
-				
-				{
-					"line" : 159,
 					"offset" : 1570
 				},
 				
 				{
-					"line" : 160,
+					"line" : 155,
 					"offset" : 1571
 				},
 				
 				{
-					"line" : 165,
+					"line" : 157,
+					"offset" : 1572
+				},
+				
+				{
+					"line" : 159,
+					"offset" : 1577
+				},
+				
+				{
+					"line" : 160,
 					"offset" : 1578
 				},
 				
 				{
-					"line" : 164,
-					"offset" : 1582
-				},
-				
-				{
 					"line" : 165,
-					"offset" : 1587
+					"offset" : 1585
 				},
 				
 				{
-					"line" : 166,
+					"line" : 164,
 					"offset" : 1589
 				},
 				
 				{
+					"line" : 165,
+					"offset" : 1594
+				},
+				
+				{
+					"line" : 166,
+					"offset" : 1596
+				},
+				
+				{
 					"line" : 171,
-					"offset" : 1590
+					"offset" : 1597
 				}
 			],
 			"offsets" : 
 			[
 				
 				{
-					"endoffset" : 1594,
+					"endoffset" : 1601,
 					"startoffset" : 1166
 				}
 			]
@@ -7057,175 +7057,175 @@
 				
 				{
 					"line" : 16,
-					"offset" : 1595
+					"offset" : 1602
 				},
 				
 				{
 					"line" : 17,
-					"offset" : 1596
-				},
-				
-				{
-					"line" : 18,
-					"offset" : 1598
-				},
-				
-				{
-					"line" : 19,
 					"offset" : 1603
 				},
 				
 				{
-					"line" : 20,
+					"line" : 18,
+					"offset" : 1605
+				},
+				
+				{
+					"line" : 19,
 					"offset" : 1610
 				},
 				
 				{
+					"line" : 20,
+					"offset" : 1617
+				},
+				
+				{
 					"line" : 21,
-					"offset" : 1615
+					"offset" : 1622
 				},
 				
 				{
 					"line" : 22,
-					"offset" : 1621
-				},
-				
-				{
-					"line" : 23,
 					"offset" : 1628
 				},
 				
 				{
-					"line" : 24,
+					"line" : 23,
 					"offset" : 1635
 				},
 				
 				{
-					"line" : 25,
-					"offset" : 1640
-				},
-				
-				{
-					"line" : 26,
-					"offset" : 1641
-				},
-				
-				{
-					"line" : 27,
+					"line" : 24,
 					"offset" : 1642
 				},
 				
 				{
-					"line" : 28,
-					"offset" : 1643
+					"line" : 25,
+					"offset" : 1647
 				},
 				
 				{
-					"line" : 29,
+					"line" : 26,
+					"offset" : 1648
+				},
+				
+				{
+					"line" : 27,
+					"offset" : 1649
+				},
+				
+				{
+					"line" : 28,
 					"offset" : 1650
 				},
 				
 				{
-					"line" : 30,
-					"offset" : 1651
-				},
-				
-				{
-					"line" : 31,
-					"offset" : 1652
-				},
-				
-				{
-					"line" : 32,
-					"offset" : 1653
-				},
-				
-				{
-					"line" : 33,
-					"offset" : 1656
-				},
-				
-				{
-					"line" : 34,
+					"line" : 29,
 					"offset" : 1657
 				},
 				
 				{
-					"line" : 35,
+					"line" : 30,
 					"offset" : 1658
 				},
 				
 				{
-					"line" : 36,
+					"line" : 31,
 					"offset" : 1659
 				},
 				
 				{
-					"line" : 37,
+					"line" : 32,
+					"offset" : 1660
+				},
+				
+				{
+					"line" : 33,
 					"offset" : 1663
 				},
 				
 				{
-					"line" : 38,
+					"line" : 34,
 					"offset" : 1664
 				},
 				
 				{
-					"line" : 39,
+					"line" : 35,
 					"offset" : 1665
 				},
 				
 				{
-					"line" : 40,
+					"line" : 36,
+					"offset" : 1666
+				},
+				
+				{
+					"line" : 37,
 					"offset" : 1670
 				},
 				
 				{
-					"line" : 41,
+					"line" : 38,
 					"offset" : 1671
 				},
 				
 				{
-					"line" : 42,
+					"line" : 39,
 					"offset" : 1672
 				},
 				
 				{
-					"line" : 43,
+					"line" : 40,
+					"offset" : 1677
+				},
+				
+				{
+					"line" : 41,
 					"offset" : 1678
 				},
 				
 				{
-					"line" : 44,
+					"line" : 42,
 					"offset" : 1679
 				},
 				
 				{
-					"line" : 45,
-					"offset" : 1680
+					"line" : 43,
+					"offset" : 1685
 				},
 				
 				{
-					"line" : 46,
+					"line" : 44,
+					"offset" : 1686
+				},
+				
+				{
+					"line" : 45,
 					"offset" : 1687
 				},
 				
 				{
+					"line" : 46,
+					"offset" : 1694
+				},
+				
+				{
 					"line" : 47,
-					"offset" : 1688
+					"offset" : 1695
 				},
 				
 				{
 					"line" : 48,
-					"offset" : 1689
+					"offset" : 1696
 				}
 			],
 			"offsets" : 
 			[
 				
 				{
-					"endoffset" : 1692,
-					"startoffset" : 1595
+					"endoffset" : 1699,
+					"startoffset" : 1602
 				}
 			]
 		}
